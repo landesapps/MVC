@@ -1,0 +1,21 @@
+{
+	"name": "atomphp/MVC",
+	"type": "library",
+	"description": "Baseline MVC functionality and abstraction for applications",
+	"keywords": [
+		"http",
+		"session",
+		"cookies",
+		"headers"
+	],
+	"homepage": "https://github.com/atomphp/MVC",
+	"license": "public domain",
+	"authors": [
+		{
+			"name": "Atom Contributors"
+		}
+	],
+    "require": {
+        "php": ">=5.4"
+    }
+}
