@@ -1,5 +1,8 @@
 <?php namespace Atom\MVC;
 
+// Aliasing rules
+use Closure;
+
 /**
  * Router class
  *
@@ -35,6 +38,16 @@ class Router
 	];
 
 	/**
+	 * Gets the defined routes
+	 *
+	 * @return   array            An array of route definitions
+	 */
+	public function getRoutes()
+	{
+		return $this->routes;
+	}
+
+	/**
 	 * Adds a route
 	 *
 	 * @param    string|array     URI(s) to match for this route
@@ -55,7 +68,12 @@ class Router
 
 		if(!is_array($callbacks))
 		{
-			$callbacks['callback'] = $callbacks;
+			$callback  = $callbacks;
+			$callbacks = [];
+
+			$callbacks['callback'] = $callback;
+
+			unset($callback);
 		}
 
 		foreach($callbacks as $callback)
