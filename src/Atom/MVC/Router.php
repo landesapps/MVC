@@ -127,6 +127,11 @@ class Router
 
 		if(false !== ($route = $this->match($uri, $method)))
 		{
+			if($method !== 'GET')
+			{
+				$route['parameters'][] = $_POST;
+			}
+			
 			if($route['before'] !== false)
 			{
 				call_user_func_array($route['before'], $route['parameters']);
@@ -157,14 +162,15 @@ class Router
 	{
 		if(isset($this->routes[$method]) and !empty($this->routes[$method]))
 		{
-			foreach(array_keys($this->route[$method]) as $route)
+			foreach(array_keys($this->routes[$method]) as $route)
 			{
-				foreach($this->choices as $search => $replace)
+				$regex_route = $route;
+				foreach($this->shortcuts as $search => $replace)
 				{
-					$route = str_replace($search, $replace, $route);
+					$regex_route = str_replace($search, $replace, $regex_route);
 				}
 
-				if($route == '(.+)')
+				if($regex_route == '(.+)')
 				{
 					return [
 						'parameters' => $uri,
@@ -173,13 +179,16 @@ class Router
 						'after'      => $this->routes[$method][$route]['after'],
 					];
 				}
-				elseif(preg_match('#^'.$route.'$#i', $uri, $matches))
+				elseif(preg_match('#^'.$regex_route.'$#i', $uri, $matches))
 				{
 					$parameters = [];
 
-					for($i = 1, $count = count($matches); $i < $count; $i++)
+					if(isset($matches[1]))
 					{
-						$parameters[] = $matches[$i];
+						for($i = 1, $count = count($matches); $i < $count; $i++)
+						{
+							$parameters[] = $matches[$i];
+						}
 					}
 
 					return [
