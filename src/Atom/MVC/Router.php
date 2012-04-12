@@ -31,10 +31,10 @@ class Router
 	 * @var    array
 	 */
 	private $shortcuts = [
-		'(:num)'   => '([0-9]+)',
-		'(:alnum)' => '([0-9a-zA-Z]+)',
-		'(:alpha)' => '([a-zA-Z]+)',
-		'(:any)'   => '(.+)',
+		':num'   => '([0-9]+)',
+		':alnum' => '([0-9a-zA-Z]+)',
+		':alpha' => '([a-zA-Z]+)',
+		':any'   => '(.+)?',
 	];
 
 	/**
@@ -200,5 +200,7 @@ class Router
 				}
 			}
 		}
+		
+		return false;
 	}
 }
